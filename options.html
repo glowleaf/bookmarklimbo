@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookmark Limbo Settings</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <div class="settings-container">
+        <h1>Bookmark Limbo Settings</h1>
+        
+        <div class="settings-section">
+            <h2>OpenAI Settings</h2>
+            <div class="setting-item">
+                <label for="apiKey">OpenAI API Key:</label>
+                <input type="password" id="apiKey" placeholder="Enter your OpenAI API key">
+                <p class="description">Required for AI summaries. <a href="https://platform.openai.com/api-keys" target="_blank">Get your API key</a></p>
+            </div>
+            <div class="setting-item">
+                <label for="customUrl">Custom API URL (optional):</label>
+                <input type="text" id="customUrl" placeholder="https://api.openai.com/v1">
+                <p class="description">Use a custom OpenAI-compatible API endpoint</p>
+            </div>
+            <button id="saveOpenAI" class="save-button">Save OpenAI Settings</button>
+            <p id="openAIStatus" class="status"></p>
+        </div>
+
+        <div class="settings-section">
+            <h2>Social Media Integration</h2>
+            <div class="setting-item">
+                <label for="xBearer">X (Twitter) Bearer Token:</label>
+                <input type="password" id="xBearer" placeholder="Enter your X Bearer token">
+                <p class="description"><a href="https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens" target="_blank">How to get a Bearer Token</a></p>
+            </div>
+            <div class="setting-item">
+                <label for="fbToken">Facebook Access Token:</label>
+                <input type="password" id="fbToken" placeholder="Enter your Facebook token">
+                <p class="description"><a href="https://developers.facebook.com/docs/facebook-login/access-tokens" target="_blank">How to get a Facebook Access Token</a></p>
+            </div>
+            <div class="setting-item">
+                <label for="redditToken">Reddit Access Token:</label>
+                <input type="password" id="redditToken" placeholder="Enter your Reddit token">
+                <p class="description"><a href="https://github.com/reddit-archive/reddit/wiki/OAuth2" target="_blank">How to get a Reddit Access Token</a></p>
+            </div>
+            <div class="setting-item">
+                <label for="pocketToken">Pocket Access Token:</label>
+                <input type="password" id="pocketToken" placeholder="Enter your Pocket token">
+                <p class="description"><a href="https://getpocket.com/developer/docs/authentication" target="_blank">How to get a Pocket Access Token</a></p>
+            </div>
+            <div class="setting-item">
+                <label for="pocketConsumer">Pocket Consumer Key:</label>
+                <input type="password" id="pocketConsumer" placeholder="Enter your Pocket consumer key">
+                <p class="description"><a href="https://getpocket.com/developer/apps/new" target="_blank">How to get a Pocket Consumer Key</a></p>
+            </div>
+            <div class="setting-item">
+                <label for="ghToken">GitHub Access Token:</label>
+                <input type="password" id="ghToken" placeholder="Enter your GitHub token">
+                <p class="description"><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token" target="_blank">How to get a GitHub Access Token</a></p>
+            </div>
+            <div class="setting-item">
+                <label for="ytApiKey">YouTube API Key:</label>
+                <input type="password" id="ytApiKey" placeholder="Enter your YouTube API key">
+                <p class="description"><a href="https://developers.google.com/youtube/v3/getting-started" target="_blank">How to get a YouTube API Key</a></p>
+            </div>
+            <div class="setting-item">
+                <label for="ytOauth">YouTube OAuth Token:</label>
+                <input type="password" id="ytOauth" placeholder="Enter your YouTube OAuth token">
+                <p class="description"><a href="https://developers.google.com/youtube/v3/guides/authentication" target="_blank">How to get a YouTube OAuth Token</a></p>
+            </div>
+            <div class="setting-item">
+                <label for="pinboardToken">Pinboard API Token:</label>
+                <input type="password" id="pinboardToken" placeholder="Enter your Pinboard token">
+                <p class="description"><a href="https://pinboard.in/settings/password" target="_blank">How to get a Pinboard API Token</a></p>
+            </div>
+            <button id="saveSocial" class="save-button">Save Social Media Settings</button>
+            <p id="socialStatus" class="status"></p>
+        </div>
+
+        <div class="settings-section">
+            <h2>Telegram Integration</h2>
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="enable-telegram">
+                    Enable Telegram bookmarks
+                </label>
+                <p class="description">Show Telegram messages in your limbo list. <a href="https://core.telegram.org/api/obtaining_api_id" target="_blank">How to set up Telegram integration</a></p>
+            </div>
+            
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="telegram-notifications">
+                    Enable Telegram notifications
+                </label>
+                <p class="description">Get notified when new Telegram messages are added to limbo</p>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2>Display Settings</h2>
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="show-summaries">
+                    Show AI summaries
+                </label>
+                <p class="description">Display AI-generated summaries for bookmarks (except Telegram)</p>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2>Limbo Duration</h2>
+            <div class="setting-item">
+                <label for="limbo-duration">Days until bookmark is considered in limbo:</label>
+                <input type="number" id="limbo-duration" min="1" max="365" value="7">
+                <p class="description">Bookmarks older than this many days will appear in limbo</p>
+            </div>
+        </div>
+
+        <button id="save-settings" class="save-button">Save All Settings</button>
+    </div>
+    <script src="options.js"></script>
+</body>
+</html> 

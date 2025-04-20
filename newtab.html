@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookmark Limbo</title>
+    <link rel="stylesheet" href="newtab.css">
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class="bookmark-container">
+        <div class="header">
+            <h1>Bookmark Limbo</h1>
+            <div class="header-right">
+                <button class="settings-button" title="Add more bookmarks to your limbo!">&#9881;</button>
+                <div class="counter">
+                    <span id="bookmark-count">0</span> bookmarks in limbo
+                </div>
+            </div>
+        </div>
+        <div id="bookmark-list" class="bookmark-list">
+            <!-- Bookmarks will be loaded here -->
+        </div>
+        <div id="loading" class="loading">Loading bookmarks...</div>
+        <div id="error" class="error" style="display: none;">Error loading bookmarks</div>
+    </div>
+    <script src="summarise-helpers.js"></script>
+    <script src="newtab.js"></script>
+</body>
+</html> 
