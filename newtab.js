@@ -69,15 +69,76 @@ const summaryObserver = new IntersectionObserver((entries) => {
     rootMargin: '100px' // Start loading when item is 100px from viewport
 });
 
-// Function to load summary for a bookmark
+// Load summary with user consent
 async function loadSummary(url, summaryElement) {
     try {
+        // Show loading state
         summaryElement.textContent = 'Loading summary...';
+        
+        // Check if we have permission for this URL
+        const hasPermission = await checkPermission(url);
+        if (!hasPermission) {
+            summaryElement.innerHTML = `
+                <button class="load-summary-btn" onclick="requestSummary('${url}', this)">
+                    Click to load summary
+                </button>
+            `;
+            return;
+        }
+
+        // If we have permission, load the summary
         const summary = await window.summarise(url);
-        summaryElement.textContent = summary;
+        summaryElement.textContent = summary || 'No summary available';
     } catch (error) {
         console.error('Error loading summary:', error);
-        summaryElement.textContent = 'Failed to load summary';
+        summaryElement.textContent = 'Error loading summary';
+    }
+}
+
+// Check if we have permission for a URL
+async function checkPermission(url) {
+    try {
+        const urlObj = new URL(url);
+        const origin = urlObj.origin;
+        
+        // Check if the URL matches our host permissions
+        const hasHostPermission = await chrome.permissions.contains({
+            origins: [origin + '/*']
+        });
+        
+        return hasHostPermission;
+    } catch (error) {
+        console.error('Error checking permission:', error);
+        return false;
+    }
+}
+
+// Request summary with user consent
+async function requestSummary(url, button) {
+    try {
+        const urlObj = new URL(url);
+        const origin = urlObj.origin;
+        
+        // Request permission for this domain
+        const granted = await chrome.permissions.request({
+            origins: [origin + '/*']
+        });
+        
+        if (granted) {
+            // Update button to show loading
+            button.textContent = 'Loading...';
+            button.disabled = true;
+            
+            // Load the summary
+            const summary = await window.summarise(url);
+            const summaryElement = button.parentElement;
+            summaryElement.textContent = summary || 'No summary available';
+        } else {
+            button.textContent = 'Permission denied';
+        }
+    } catch (error) {
+        console.error('Error requesting summary:', error);
+        button.textContent = 'Error loading summary';
     }
 }
 
@@ -85,64 +146,59 @@ async function loadSummary(url, summaryElement) {
 function createBookmarkItem(bookmark) {
     const item = document.createElement('div');
     item.className = 'bookmark-item';
-    item.dataset.url = bookmark.url;
     
-    const title = document.createElement('h3');
-    title.textContent = bookmark.title;
+    const status = getLimboStatus(bookmark.daysInLimbo);
     
-    const link = document.createElement('a');
-    link.href = bookmark.url;
-    link.textContent = bookmark.url;
+    item.innerHTML = `
+        <div class="bookmark-header">
+            <span class="emoji">${status.emoji}</span>
+            <span class="days">${bookmark.daysInLimbo} days</span>
+        </div>
+        <h3 class="title">${bookmark.title}</h3>
+        <p class="url">${bookmark.url}</p>
+        <div class="summary"></div>
+    `;
     
-    // Calculate days in limbo
-    const daysInLimbo = Math.floor((Date.now() - bookmark.dateAdded) / (1000 * 60 * 60 * 24));
-    const status = getLimboStatus(daysInLimbo);
-    
-    const daysInLimboText = document.createElement('p');
-    daysInLimboText.className = 'days-in-limbo';
-    daysInLimboText.textContent = `${status.emoji} ${daysInLimbo} days in limbo (${status.description})`;
-    
-    const summary = document.createElement('p');
-    summary.className = 'bookmark-summary';
-    summary.textContent = 'Loading summary...';
-    
-    item.appendChild(title);
-    item.appendChild(link);
-    item.appendChild(daysInLimboText);
-    item.appendChild(summary);
-    
-    // Add click handler to mark as visited and update counter
+    // Add click handler that uses activeTab permission
     item.addEventListener('click', async () => {
-        // Open the bookmark
-        window.open(bookmark.url, '_blank');
-        
-        // Mark as visited
-        const result = await chrome.storage.local.get('visitedBookmarks');
-        const visitedBookmarks = result.visitedBookmarks || {};
-        visitedBookmarks[bookmark.id] = true;
-        await chrome.storage.local.set({ visitedBookmarks });
-        
-        // Get current count and decrement
-        const countResult = await chrome.storage.local.get('bookmarkCount');
-        const currentCount = countResult.bookmarkCount || 0;
-        const newCount = Math.max(0, currentCount - 1); // Ensure it doesn't go below 0
-        await chrome.storage.local.set({ bookmarkCount: newCount });
-        
-        // Update counter display
-        updateBookmarkCounter(newCount);
-        
-        // Remove the item
-        item.remove();
-        
-        // Check if all bookmarks are visited
-        const remainingItems = document.querySelectorAll('.bookmark-item');
-        if (remainingItems.length === 0) {
-            showCongratulations();
+        try {
+            // Request activeTab permission
+            const granted = await chrome.permissions.request({
+                permissions: ['activeTab']
+            });
+            
+            if (granted) {
+                // Open the bookmark in a new tab
+                chrome.tabs.create({ url: bookmark.url });
+                
+                // Mark as visited
+                const result = await chrome.storage.local.get('visitedBookmarks');
+                const visitedBookmarks = result.visitedBookmarks || {};
+                visitedBookmarks[bookmark.id] = true;
+                await chrome.storage.local.set({ visitedBookmarks });
+                
+                // Update counter
+                const countResult = await chrome.storage.local.get('bookmarkCount');
+                const newCount = Math.max(0, (countResult.bookmarkCount || 0) - 1);
+                await chrome.storage.local.set({ bookmarkCount: newCount });
+                updateBookmarkCounter(newCount);
+                
+                // Remove the item
+                item.remove();
+                
+                // Check if all bookmarks are visited
+                if (newCount === 0) {
+                    showCongratulations();
+                }
+            }
+        } catch (error) {
+            console.error('Error opening bookmark:', error);
         }
     });
     
-    // Observe this item for lazy loading
-    summaryObserver.observe(item);
+    // Load summary
+    const summaryElement = item.querySelector('.summary');
+    loadSummary(bookmark.url, summaryElement);
     
     return item;
 }

@@ -1,130 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmark Limbo - Privacy Practices</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #333;
-        }
-        h1, h2, h3 {
-            color: #2c3e50;
-        }
-        .section {
-            margin-bottom: 2em;
-            padding: 1em;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        .compliance {
-            background: #e3f2fd;
-            padding: 1em;
-            border-radius: 8px;
-            margin-top: 2em;
-        }
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: auto; }
+        h1, h2 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 3px; }
+        ul { margin-left: 20px; }
     </style>
 </head>
 <body>
-    <h1>Bookmark Limbo - Privacy Practices</h1>
 
-    <div class="section">
-        <h2>Single Purpose Description</h2>
-        <p>Bookmark Limbo helps users manage their bookmarks by showing a curated selection of bookmarks that need attention, with AI-generated summaries to help make decisions about them. The extension displays three bookmarks at a time (one old, one medium-aged, and one new) to help users systematically work through their bookmark backlog.</p>
-    </div>
+<h1>Privacy Practices for Bookmark Limbo Chrome Extension</h1>
 
-    <div class="section">
-        <h2>Permission Justifications</h2>
+<p>This document outlines the data handling practices of the Bookmark Limbo Chrome extension. Our extension helps you manage your bookmarks more effectively with AI-powered features while respecting your privacy.</p>
 
-        <h3>Bookmarks Permission</h3>
-        <p>This extension requires access to bookmarks to:</p>
+<h2>Data Collection and Usage</h2>
+
+<p>When you use Bookmark Limbo, the following data may be collected and processed:</p>
+
+<ul>
+    <li><strong>Bookmark Data:</strong>
         <ul>
-            <li>Display bookmarks in the new tab page</li>
-            <li>Track which bookmarks have been visited</li>
-            <li>Calculate how long bookmarks have been in limbo</li>
-            <li>Enable bookmark management features</li>
-            <li>Sort and categorize bookmarks by age</li>
+            <li>The extension accesses your Chrome bookmarks to provide its functionality</li>
+            <li>Bookmark URLs, titles, and folder structure are processed locally within your browser</li>
+            <li>No bookmark data is stored on external servers without your explicit consent</li>
         </ul>
-
-        <h3>Host Permissions</h3>
-        <p>The extension needs access to all URLs to:</p>
+    </li>
+    <li><strong>AI Processing:</strong>
         <ul>
-            <li>Generate AI summaries of bookmarked content</li>
-            <li>Enable social media integrations (Twitter, Facebook, Reddit, etc.)</li>
-            <li>Support Telegram message viewing</li>
-            <li>Process bookmark content for display</li>
-            <li>Fetch metadata for bookmarked pages</li>
+            <li>When you use AI features (like summarization or categorization), the following occurs:
+                <ul>
+                    <li>The bookmark title and URL are sent to our AI service</li>
+                    <li>The AI service processes this information to generate summaries and categories</li>
+                    <li>Results are returned to your browser and stored locally</li>
+                    <li>We use OpenAI's API for AI processing, subject to their privacy policy</li>
+                </ul>
+            </li>
         </ul>
-
-        <h3>Remote Code</h3>
-        <p>The extension uses remote code for:</p>
+    </li>
+    <li><strong>Local Storage:</strong>
         <ul>
-            <li>OpenAI API calls to generate content summaries</li>
-            <li>Social media API integrations (Twitter, Facebook, Reddit, etc.)</li>
-            <li>Telegram API integration</li>
-            <li>Content processing and analysis</li>
+            <li>Extension settings and preferences are stored locally in your browser</li>
+            <li>Generated summaries and categories are cached locally for better performance</li>
+            <li>You can clear this data at any time through the extension settings</li>
         </ul>
-        <p><strong>Note:</strong> All remote code is from trusted, official APIs and is necessary for core functionality. No third-party scripts are loaded without user consent.</p>
-
-        <h3>Storage Permission</h3>
-        <p>The extension uses storage to:</p>
+    </li>
+    <li><strong>Social Features:</strong>
         <ul>
-            <li>Save user preferences and settings</li>
-            <li>Track visited bookmarks</li>
-            <li>Store API keys and tokens for integrations</li>
-            <li>Maintain limbo duration settings</li>
-            <li>Cache AI summaries for performance</li>
+            <li>If you choose to share bookmarks:
+                <ul>
+                    <li>The shared bookmark data (URL, title, your comments) will be posted to the selected platform</li>
+                    <li>Sharing is always opt-in and requires your explicit action</li>
+                    <li>Platform-specific privacy policies apply when sharing (Twitter, LinkedIn, etc.)</li>
+                </ul>
+            </li>
         </ul>
-        <p><strong>Note:</strong> All data is stored locally using Chrome's storage API. No data is sent to external servers except for necessary API calls.</p>
+    </li>
+</ul>
 
-        <h3>Tabs Permission</h3>
-        <p>The extension needs access to tabs to:</p>
-        <ul>
-            <li>Open bookmarks in new tabs when clicked</li>
-            <li>Track which bookmarks have been visited</li>
-            <li>Enable the new tab override functionality</li>
-            <li>Manage bookmark navigation</li>
-        </ul>
-    </div>
+<h2>Required Permissions</h2>
 
-    <div class="compliance">
-        <h2>Data Usage Compliance Certification</h2>
-        <p>I certify that Bookmark Limbo:</p>
-        <ul>
-            <li>Only collects data necessary for core functionality</li>
-            <li>Stores all data locally on the user's device</li>
-            <li>Does not share data with third parties except for necessary API calls</li>
-            <li>Provides clear privacy controls to users</li>
-            <li>Complies with Chrome Web Store's Developer Program Policies</li>
-            <li>Implements appropriate security measures for stored data</li>
-            <li>Provides clear documentation of data usage</li>
-            <li>Respects user privacy and data ownership</li>
-        </ul>
-    </div>
+<p>Bookmark Limbo requires the following Chrome permissions:</p>
 
-    <div class="section">
-        <h2>Data Collection and Usage</h2>
-        <p>The extension collects and uses data in the following ways:</p>
-        <ul>
-            <li><strong>Bookmark Data:</strong> Used only for display and management within the extension</li>
-            <li><strong>Settings Data:</strong> Stored locally to maintain user preferences</li>
-            <li><strong>API Keys:</strong> Used only for the specified integrations and stored securely</li>
-            <li><strong>Usage Data:</strong> Tracks visited bookmarks to improve the limbo system</li>
-        </ul>
-    </div>
+<ul>
+    <li><strong>bookmarks</strong> - To access and manage your Chrome bookmarks</li>
+    <li><strong>storage</strong> - To save your preferences and cached data locally</li>
+    <li><strong>tabs</strong> - To interact with your current browser tabs when adding bookmarks</li>
+    <li><strong>identity</strong> - For social media integration (optional)</li>
+</ul>
 
-    <div class="section">
-        <h2>User Control and Transparency</h2>
-        <p>Users have full control over:</p>
+<h2>Third-Party Services</h2>
+
+<ul>
+    <li><strong>OpenAI API:</strong>
         <ul>
-            <li>Which integrations to enable/disable</li>
-            <li>What data is stored locally</li>
-            <li>When to clear stored data</li>
-            <li>How their bookmarks are displayed and managed</li>
+            <li>Used for AI-powered features like summarization and categorization</li>
+            <li>Only bookmark titles and URLs are sent to OpenAI</li>
+            <li>Subject to OpenAI's privacy policy and data handling practices</li>
         </ul>
-    </div>
+    </li>
+    <li><strong>Social Media Platforms:</strong>
+        <ul>
+            <li>Integration with Twitter, LinkedIn, etc., is optional</li>
+            <li>Authentication and data sharing follow each platform's privacy policies</li>
+            <li>You can revoke access to these platforms at any time</li>
+        </ul>
+    </li>
+</ul>
+
+<h2>Data Security</h2>
+
+<ul>
+    <li>All communication with our servers uses secure HTTPS connections</li>
+    <li>API keys and authentication tokens are stored securely in your browser</li>
+    <li>No personal data is stored on our servers without explicit consent</li>
+</ul>
+
+<h2>Your Rights</h2>
+
+<p>You have the right to:</p>
+<ul>
+    <li>Access all your locally stored data through the extension settings</li>
+    <li>Delete your local data at any time</li>
+    <li>Opt-out of AI features and social sharing</li>
+    <li>Uninstall the extension, which will remove all local data</li>
+</ul>
+
+<h2>Changes to This Policy</h2>
+
+<p>This privacy policy may be updated as we add new features or modify existing ones. Significant changes will be announced through the extension's update notes.</p>
+
+<p><em>Last Updated: April 2025</em></p>
+
 </body>
 </html> 
